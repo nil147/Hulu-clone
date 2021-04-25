@@ -1,14 +1,23 @@
 import { ThumbUpIcon } from "@heroicons/react/outline";
 import Image from "next/image";
+import { useState } from "react";
+import PopupInfo from "./PopupInfo";
+
 
 function List({ result }) {
 
     const BASE_URL = "https://image.tmdb.org/t/p/original/";
 
+    const [popupIsOpen, setPopupIsOpen] = useState(false);
+
+
+
+
+
 
 
     return (
-        <div className="group cursor-pointer p-2 transition duration-200 ease-in transform sm:hover:scale-105 hover:z-50">
+        <div onClick={() => setPopupIsOpen(!popupIsOpen)} className="group cursor-pointer p-2 transition duration-200 ease-in transform sm:hover:scale-105 hover:z-50">
             <Image
                 layout='responsive'
                 height={1080}
@@ -27,6 +36,13 @@ function List({ result }) {
                     <ThumbUpIcon className="h-5 mx-2" /> {result.vote_count}
                 </p>
             </div>
+            <>
+            <PopupInfo image={`${BASE_URL}${result.backdrop_path || result.poster_path}` || `${BASE_URL}${result.poster_path}`}
+            overview={result.overview}
+            title={result.title || result.original_name}
+            isOpen={popupIsOpen} />
+            </>
+            
         </div>
     )
 }
